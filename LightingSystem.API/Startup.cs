@@ -2,10 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LightingSystem.Data.Repositories;
+using LightingSystem.Domain.Commands;
+using LightingSystem.Domain.Queries;
+using LightingSystem.Infrastructure.Database;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -26,6 +32,13 @@ namespace LightingSystem.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMediatR(typeof(Startup));
+            services.AddMediatR(typeof(GetLightingSystemQuery));
+            services.AddMediatR(typeof(AddLightSystemCommand));
+            services.AddDbContext<HomeLightSystemContext>(options =>
+               options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"),
+               b => b.MigrationsAssembly("LightingSystem.API")));
+            services.AddScoped<IHomeLightSystemRepository, HomeLightSystemRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
