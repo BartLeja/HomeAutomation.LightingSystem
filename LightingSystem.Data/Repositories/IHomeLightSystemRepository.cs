@@ -1,7 +1,7 @@
-﻿using LightingSystem.Infrastructure.Database.Models;
+﻿
+using LightingSystem.Data.Dtos;
+using LightingSystem.Domain.HomeLightSystem;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace LightingSystem.Data.Repositories
@@ -10,6 +10,7 @@ namespace LightingSystem.Data.Repositories
     {
         Task AddAsync(HomeLightSystem homeLightSystem);
         Task<HomeLightSystem> GetByIdAsync(Guid homeLightSystemId);
+        void AddLightPoint(HomeLightSystem homeLightSystem, Guid lightPointId);
         Task Save();
     }
 }

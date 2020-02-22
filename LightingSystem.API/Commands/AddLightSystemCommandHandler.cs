@@ -1,12 +1,11 @@
 ﻿using LightingSystem.Data.Repositories;
+using LightingSystem.Domain.HomeLightSystem;
 using MediatR;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace LightingSystem.Domain.Commands
+namespace LightingSystem.API.Commands
 {
     public class AddLightSystemCommandHandler : IRequestHandler<AddLightSystemCommand,Guid>
     {
@@ -19,9 +18,9 @@ namespace LightingSystem.Domain.Commands
 
         public async Task<Guid> Handle(AddLightSystemCommand command, CancellationToken cancellationToken)
         {
-            var homeLightSystem = new HomeLightSystem.HomeLightSystem(command.UserName);
+            var homeLightSystem = new HomeLightSystem(command.UserName);
             
-            await _homeLightSystemRepository.AddAsync(new Infrastructure.Database.Models.HomeLightSystem() { UserName = "test"});
+            await _homeLightSystemRepository.AddAsync(homeLightSystem);
             await _homeLightSystemRepository.Save();
             return homeLightSystem.LocalLightingSystemId;
         }

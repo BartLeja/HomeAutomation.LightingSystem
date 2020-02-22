@@ -3,15 +3,17 @@ using System;
 using LightingSystem.Data.EntityConfigurations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace LightingSystem.API.Migrations
 {
     [DbContext(typeof(HomeLightSystemContext))]
-    partial class HomeLightSystemContextModelSnapshot : ModelSnapshot
+    [Migration("20200222164000_ChangeInLightPoint9")]
+    partial class ChangeInLightPoint9
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

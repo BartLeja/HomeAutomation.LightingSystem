@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.0.30" />
     <PackageReference Include="MediatR" Version="8.0.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
@@ -25,7 +26,6 @@
   <ItemGroup>
     <ProjectReference Include="..\LightingSystem.Data\LightingSystem.Data.csproj" />
     <ProjectReference Include="..\LightingSystem.Domain\LightingSystem.Domain.csproj" />
-    <ProjectReference Include="..\LightingSystem.Infrastructure\LightingSystem.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

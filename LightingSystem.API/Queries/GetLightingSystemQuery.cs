@@ -1,8 +1,8 @@
-﻿using LightingSystem.Domain.Dtos;
+﻿using LightingSystem.Data.Dtos;
 using MediatR;
 using System;
 
-namespace LightingSystem.Domain.Queries
+namespace LightingSystem.API.Queries
 {
     //TODO create IComand interferace
     public class GetLightingSystemQuery : IRequest<HomeLightSystemDto>

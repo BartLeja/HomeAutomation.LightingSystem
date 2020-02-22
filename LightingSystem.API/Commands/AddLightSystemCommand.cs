@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace LightingSystem.Domain.Commands
+namespace LightingSystem.API.Commands
 {
     public class AddLightSystemCommand: IRequest<Guid>
     {

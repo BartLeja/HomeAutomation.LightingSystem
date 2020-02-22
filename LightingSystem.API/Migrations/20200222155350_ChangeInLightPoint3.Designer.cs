@@ -3,15 +3,17 @@ using System;
 using LightingSystem.Data.EntityConfigurations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace LightingSystem.API.Migrations
 {
     [DbContext(typeof(HomeLightSystemContext))]
-    partial class HomeLightSystemContextModelSnapshot : ModelSnapshot
+    [Migration("20200222155350_ChangeInLightPoint3")]
+    partial class ChangeInLightPoint3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,13 +39,11 @@ namespace LightingSystem.API.Migrations
                     b.OwnsMany("LightingSystem.Domain.HomeLightSystem.LightPoint", "lightPoints", b1 =>
                         {
                             b1.Property<Guid>("LightPointId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnName("lightpointid");
+                                .ValueGeneratedOnAdd();
 
                             b1.Property<string>("CustomName");
 
-                            b1.Property<Guid>("HomeLightSystemLocalLightingSystemId")
-                                .HasColumnName("homelightsystemlocallightingsystemid");
+                            b1.Property<Guid>("HomeLightSystemLocalLightingSystemId");
 
                             b1.Property<bool>("IsAvailable");
 
@@ -53,7 +53,7 @@ namespace LightingSystem.API.Migrations
 
                             b1.HasIndex("HomeLightSystemLocalLightingSystemId");
 
-                            b1.ToTable("lightpoint");
+                            b1.ToTable("lightPoint");
 
                             b1.HasOne("LightingSystem.Domain.HomeLightSystem.HomeLightSystem")
                                 .WithMany("lightPoints")
@@ -63,11 +63,9 @@ namespace LightingSystem.API.Migrations
                             b1.OwnsMany("LightingSystem.Domain.HomeLightSystem.Bulb", "lightBulbs", b2 =>
                                 {
                                     b2.Property<Guid>("Id")
-                                        .ValueGeneratedOnAdd()
-                                        .HasColumnName("id");
+                                        .ValueGeneratedOnAdd();
 
-                                    b2.Property<Guid>("Lightpointid")
-                                        .HasColumnName("lightpointid");
+                                    b2.Property<Guid>("LightPointId");
 
                                     b2.Property<int>("Number");
 
@@ -75,13 +73,13 @@ namespace LightingSystem.API.Migrations
 
                                     b2.HasKey("Id");
 
-                                    b2.HasIndex("Lightpointid");
+                                    b2.HasIndex("LightPointId");
 
                                     b2.ToTable("bulb");
 
                                     b2.HasOne("LightingSystem.Domain.HomeLightSystem.LightPoint")
                                         .WithMany("lightBulbs")
-                                        .HasForeignKey("Lightpointid")
+                                        .HasForeignKey("LightPointId")
                                         .OnDelete(DeleteBehavior.Cascade);
                                 });
                         });

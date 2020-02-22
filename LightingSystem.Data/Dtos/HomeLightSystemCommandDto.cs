@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace LightingSystem.Domain.Dtos
+namespace LightingSystem.Data.Dtos
 {
     public class HomeLightSystemCommandDto
     {

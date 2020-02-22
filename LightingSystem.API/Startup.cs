@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AutoMapper;
+using LightingSystem.API.Commands;
+using LightingSystem.API.Queries;
+using LightingSystem.Data.Dapper;
+using LightingSystem.Data.EntityConfigurations;
+using LightingSystem.Data.Mappers;
 using LightingSystem.Data.Repositories;
-using LightingSystem.Domain.Commands;
-using LightingSystem.Domain.Queries;
-using LightingSystem.Infrastructure.Database;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace LightingSystem.API
 {
@@ -35,10 +31,15 @@ namespace LightingSystem.API
             services.AddMediatR(typeof(Startup));
             services.AddMediatR(typeof(GetLightingSystemQuery));
             services.AddMediatR(typeof(AddLightSystemCommand));
+            services.AddMediatR(typeof(AddLightPointCommand));
             services.AddDbContext<HomeLightSystemContext>(options =>
                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"),
                b => b.MigrationsAssembly("LightingSystem.API")));
             services.AddScoped<IHomeLightSystemRepository, HomeLightSystemRepository>();
+            services.AddTransient<ISqlConnectionFactory>
+                (x => new SqlConnectionFactory("Server=localhost; Port = 5432; User ID=postgres; Password=Sim13vetson!; Database=HomeLightSystem;"));
+
+            services.AddAutoMapper(typeof(Startup), typeof(HomeLightSystemMapper));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

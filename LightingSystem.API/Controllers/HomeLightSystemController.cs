@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using LightingSystem.Domain.Commands;
-using LightingSystem.Domain.Dtos;
-using LightingSystem.Domain.Queries;
+using AutoMapper;
+using LightingSystem.API.Commands;
+using LightingSystem.API.Queries;
+using LightingSystem.Data.Dtos;
+using LightingSystem.Domain.HomeLightSystem;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,9 +18,11 @@ namespace LightingSystem.API.Controllers
     public class HomeLightSystemController : Controller
     {
         private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
-        public HomeLightSystemController(IMediator mediator)
+        public HomeLightSystemController(IMediator mediator, IMapper mapper)
         {
+            _mapper = mapper;
             _mediator = mediator;
         }
 
@@ -32,9 +36,10 @@ namespace LightingSystem.API.Controllers
 
         // GET: api/LightSystem/5
         [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        public async Task<HomeLightSystemDto> Get(Guid id)
         {
-            return "value";
+            var test = await _mediator.Send(new GetLightingSystemQuery(id));
+            return test;
         }
 
         // POST: api/LightSystem
@@ -43,6 +48,28 @@ namespace LightingSystem.API.Controllers
         {
             var homeLightSystem = await _mediator.Send(new AddLightSystemCommand(request.UserName));
             return Created(string.Empty, homeLightSystem);
+        }
+
+        // POST: api/LightSystem/LightPoint
+        [HttpPost("{homeLightSystemId}")]
+        public async Task<IActionResult> PostLightPoint(Guid homeLightSystemId, [FromBody] LightPointDto request)
+        {
+            List<Bulb> bulbs = new List<Bulb>();
+
+            //foreach (var lightBulb in request.LightBulbs)
+            //{
+            //    bulbs.Add(_mapper.Map<Bulb>(lightBulb));
+            //}
+            bulbs = _mapper.Map<List<Bulb>>(request.LightBulbs);
+            var lightPoint = await _mediator.Send(
+                new AddLightPointCommand(
+                    request.LightBulbsCount,
+                    request.MqttId,
+                    request.CustomName,
+                    homeLightSystemId,
+                    bulbs));
+            // TODO mapper
+            return Created(string.Empty, lightPoint);
         }
 
         // PUT: api/LightSystem/5

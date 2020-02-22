@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace LightingSystem.Infrastructure.Database.Models
+namespace LightingSystem.Data.Models
 {
     public class HomeLightSystem
     {
