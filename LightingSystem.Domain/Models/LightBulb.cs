@@ -3,13 +3,13 @@ using System;
 
 namespace LightingSystem.Domain.HomeLightSystem
 {
-    public class Bulb : Entity
+    public class LightBulb : Entity
     {
         public Guid Id { get; set; }
         private int number;
         private bool status;
 
-        public Bulb(int number)
+        public LightBulb(int number)
         {
             this.number = number;
             status = false;

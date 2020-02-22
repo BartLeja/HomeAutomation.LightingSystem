@@ -7,10 +7,10 @@ namespace LightingSystem.Domain.HomeLightSystem
 {
     public class LightPoint : Entity
     {
-        public Guid LightPointId { get; set; }
+        public Guid Id { get; set; }
 
-        public IEnumerable<Bulb> LightBulbs => lightBulbs.ToList();
-        private List<Bulb> lightBulbs;
+        public IEnumerable<LightBulb> LightBulbs => lightBulbs.ToList();
+        private List<LightBulb> lightBulbs;
         private string mqttId;
         private string customName;
         private bool isAvailable;
@@ -18,7 +18,7 @@ namespace LightingSystem.Domain.HomeLightSystem
         private LightPoint()
         {
             isAvailable = true;
-            lightBulbs = new List<Bulb>();
+            lightBulbs = new List<LightBulb>();
         }
 
         public LightPoint(
@@ -27,16 +27,16 @@ namespace LightingSystem.Domain.HomeLightSystem
             int numberOfBulbs
             )
         {
-            LightPointId = Guid.NewGuid();
+            Id = Guid.NewGuid();
             this.mqttId = mqttId;
             this.customName = customName;
             isAvailable = true;
-            lightBulbs = new List<Bulb>();
+            lightBulbs = new List<LightBulb>();
         }
 
-        public void AddBulb(Bulb bulb)
+        public void AddLightBulb(LightBulb lightBulb)
         {
-            lightBulbs.Add(bulb);
+            lightBulbs.Add(lightBulb);
         }
 
         public void Disable()
@@ -51,8 +51,8 @@ namespace LightingSystem.Domain.HomeLightSystem
 
         public void ChangeBulbStatus(Guid bulbId,bool bulbStatus)
         {
-           var bulb = lightBulbs.Where(lb => lb.Id == bulbId).FirstOrDefault();
-            bulb.ChangeStatus(bulbStatus);
+           var lightBulb = lightBulbs.Where(lb => lb.Id == bulbId).FirstOrDefault();
+            lightBulb.ChangeStatus(bulbStatus);
         }
     }
 }

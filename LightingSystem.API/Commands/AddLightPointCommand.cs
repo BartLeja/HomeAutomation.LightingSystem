@@ -11,16 +11,14 @@ namespace LightingSystem.API.Commands
         public string MqttId { get; set; }
         public string CustomName { get; set; }
         public Guid HomeLightSystemGuid { get; set; }
-        public List<Bulb> Bulbs { get; set; }
+        public List<LightBulb> Bulbs { get; set; }
 
         public AddLightPointCommand(
-            int lightBulbsCount, 
             string mqttId, 
             string customName,
             Guid homeLightSystemGuid,
-            List<Bulb> bulbs)
+            List<LightBulb> bulbs)
         {
-            LightBulbsCount = lightBulbsCount;
             MqttId = mqttId;
             CustomName = customName;
             HomeLightSystemGuid = homeLightSystemGuid;

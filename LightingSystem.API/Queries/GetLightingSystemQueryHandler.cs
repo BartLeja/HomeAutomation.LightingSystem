@@ -30,28 +30,28 @@ namespace LightingSystem.API.Queries
             HomeLightSystemDto homeLightSystemDto = null;
             using (var connection = this._sqlConnectionFactory.GetOpenConnection())
             {
-                const string sql = "SELECT * FROM public.homelightsystem WHERE locallightingsystemid = @homeLightSystemId";
+                const string sql = "SELECT * FROM public.homelightsystem WHERE id = @homeLightSystemId";
                 var homeLightSystemId = request.LocalLightingSystemId;
                
                 homeLightSystemDto = await connection.QueryFirstAsync<HomeLightSystemDto>(sql, new { homeLightSystemId });
 
-                var homeLightSystemLocalLightingSystemId = request.LocalLightingSystemId;
+                //var homeLightSystemLocalLightingSystemId = request.LocalLightingSystemId;
                 
                 var lookup = new Dictionary<Guid, LightPointDto>();
-                connection.Query<LightPointDto, BulbDto, LightPointDto>(@"
+                connection.Query<LightPointDto, LightBulbDto, LightPointDto>(@"
                         SELECT lp.*, b.*
                         FROM public.lightpoint lp 
-                        INNER JOIN public.bulb b ON lp.lightpointid = b.lightpointid 
-                        AND lp.homelightsystemlocallightingsystemid = @homeLightSystemLocalLightingSystemId", 
+                        INNER JOIN public.lightbulb b ON lp.id = b.lightpointid 
+                        AND lp.homelightsystemid = @homeLightSystemId", 
                         (lp, b) => {
                     LightPointDto lightPoint;
-                    if (!lookup.TryGetValue(lp.LightPointId, out lightPoint))
-                        lookup.Add(lp.LightPointId, lightPoint = lp);
+                    if (!lookup.TryGetValue(lp.Id, out lightPoint))
+                        lookup.Add(lp.Id, lightPoint = lp);
                     if (lightPoint.LightBulbs == null)
-                        lightPoint.LightBulbs = new List<BulbDto>();
+                        lightPoint.LightBulbs = new List<LightBulbDto>();
                     lightPoint.LightBulbs.Add(b); /* Add locations to course */
                     return lightPoint;
-                }, new { homeLightSystemLocalLightingSystemId }, splitOn: "lightpointid,lightpointid").AsQueryable();
+                }, new { homeLightSystemId }, splitOn: "id,lightpointid").AsQueryable();
                 homeLightSystemDto.LightPoints = lookup.Values.ToList();
             }
 

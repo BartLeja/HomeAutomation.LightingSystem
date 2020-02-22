@@ -17,39 +17,29 @@ namespace LightingSystem.Data.EntityConfigurations
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<HomeLightSystem>()
-                .HasKey(mb => mb.LocalLightingSystemId);
-            modelBuilder.Entity<HomeLightSystem>().Property<Guid>("LocalLightingSystemId")
-                .HasColumnName("locallightingsystemid");
+                .HasKey(mb => mb.Id);
+            modelBuilder.Entity<HomeLightSystem>().Property<Guid>("Id")
+                .HasColumnName("id");
 
-            modelBuilder.Entity<LightPoint>().Property<Guid>("HomeLightSystemLocalLightingSystemId")
-              .HasColumnName("homelightsystemlocallightingsystemid");
+            modelBuilder.Entity<LightPoint>().Property<Guid>("HomeLightSystemId")
+                .HasColumnName("homelightsystemid");
 
-            modelBuilder.Entity<LightPoint>().Property<Guid>("LightPointId")
-            .HasColumnName("lightpointid");
+            modelBuilder.Entity<LightPoint>().Property<Guid>("Id")
+                .HasColumnName("id");
 
-            modelBuilder.Entity<Bulb>().Property<Guid>("Id")
-           .HasColumnName("id");
+            modelBuilder.Entity<LightBulb>().Property<Guid>("Id")
+                .HasColumnName("id");
 
-            modelBuilder.Entity<Bulb>().Property<Guid>("LightPointId")
-          .HasColumnName("lightpointid");
-            //modelBuilder.Entity<HomeLightSystem>().Ignore(
-            //    hls => hls.LightPoints);
-            //.Property<IEnumerable<LightPoint>>(hls=>hls.LightPoints)
-            //.UsePropertyAccessMode(PropertyAccessMode.Field);
-
+            modelBuilder.Entity<LightBulb>().Property<Guid>("LightPointId")
+                .HasColumnName("lightpointid");
+   
             modelBuilder.Entity<HomeLightSystem>().ToTable("homelightsystem");
             modelBuilder.Entity<LightPoint>().ToTable("lightpoint");
-            modelBuilder.Entity<Bulb>().ToTable("bulb");
+            modelBuilder.Entity<LightBulb>().ToTable("lightbulb");
 
+            modelBuilder.Entity<LightPoint>().HasKey(mb => mb.Id);
+            modelBuilder.Entity<LightBulb>().HasKey(mb => mb.Id);
 
-            modelBuilder.Entity<LightPoint>().HasKey(mb => mb.LightPointId);
-            modelBuilder.Entity<Bulb>().HasKey(mb => mb.Id);
-
-            //modelBuilder.Entity<HomeLightSystem>()
-            //    .OwnsMany<LightPoint>(hls => {
-            //       hls.WithOwner().HasForeignKey("CustomerId");
-            //    })
-            //    .WithOne();
             var navigation = modelBuilder.Entity<LightPoint>().Metadata
                 .FindNavigation(nameof(LightingSystem.Domain.HomeLightSystem.LightPoint.LightBulbs));
             navigation.SetPropertyAccessMode(PropertyAccessMode.Field);
@@ -57,7 +47,7 @@ namespace LightingSystem.Data.EntityConfigurations
 
         }
 
-        public DbSet<Bulb> Bulb { get; set; }
+        public DbSet<LightBulb> LightBulb { get; set; }
         public DbSet<LightPoint> LightPoint { get; set; }
         public DbSet<HomeLightSystem> HomeLightSystem { get; set; }
     }
@@ -66,16 +56,11 @@ namespace LightingSystem.Data.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<HomeLightSystem> builder)
         {
-            builder.HasKey(b => b.LocalLightingSystemId);
+            builder.HasKey(b => b.Id);
             builder
                 .Metadata
                 .FindNavigation(nameof(HomeLightSystem.LightPoints))
                 .SetPropertyAccessMode(PropertyAccessMode.Field);
-
-            //builder
-            //    .Metadata
-            //    .FindNavigation(nameof(LightPoint.LightBulbs))
-            //    .SetPropertyAccessMode(PropertyAccessMode.Field);
 
             builder.OwnsMany<LightPoint>("lightPoints", lp =>
             {
@@ -83,7 +68,7 @@ namespace LightingSystem.Data.EntityConfigurations
                  lp.Property<string>("CustomName");
                  lp.Property<bool>("IsAvailable");
                 
-                lp.OwnsMany<Bulb>("lightBulbs", b =>
+                lp.OwnsMany<LightBulb>("lightBulbs", b =>
                  {
                     b.Property<int>("Number");
                     b.Property<bool>("Status");

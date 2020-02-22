@@ -7,7 +7,7 @@ namespace LightingSystem.Domain.HomeLightSystem
 {
     public class HomeLightSystem : Entity
     {
-        public Guid LocalLightingSystemId { get; set; }
+        public Guid Id { get; set; }
         public string UserName { get; set; }
 
         public IEnumerable<LightPoint> LightPoints => lightPoints.ToList();
@@ -20,35 +20,35 @@ namespace LightingSystem.Domain.HomeLightSystem
 
         public HomeLightSystem(string username)
         {
-            LocalLightingSystemId = Guid.NewGuid();
+            Id = Guid.NewGuid();
             UserName = username;
             lightPoints = new List<LightPoint>();
             //TODO context save => TODO unitofwork save => TODO emit event and save ther
         }
 
-        public Guid AddLighPoint(string mqttId, string customName, int numberOfBulbs, List<Bulb> bulbs)
+        public Guid AddLighPoint(string mqttId, string customName, int numberOfBulbs, List<LightBulb> lightBulbs)
         {
             var lightPoint = new LightPoint(mqttId, customName, numberOfBulbs);
-            foreach(var bulb in bulbs ?? Enumerable.Empty<Bulb>())
+            foreach(var lightBulb in lightBulbs ?? Enumerable.Empty<LightBulb>())
             {
-                lightPoint.AddBulb(bulb);
+                lightPoint.AddLightBulb(lightBulb);
             }
 
             lightPoints.Add(lightPoint);
             //TODO context save => TODO unitofwork save => TODO emit event and save there
-            return lightPoint.LightPointId;
+            return lightPoint.Id;
         }
 
         public void DisableLighPoint(Guid lightPointId)
         {
-            var lightPoint = lightPoints.Where(lp => lp.LightPointId == lightPointId).FirstOrDefault();
+            var lightPoint = lightPoints.Where(lp => lp.Id == lightPointId).FirstOrDefault();
             lightPoint.Disable();
             //TODO context save => TODO unitofwork save => TODO emit event and save there
         }
 
         public void EnableLighPoint(Guid lightPointId)
         {
-            var lightPoint = lightPoints.Where(lp => lp.LightPointId == lightPointId).FirstOrDefault();
+            var lightPoint = lightPoints.Where(lp => lp.Id == lightPointId).FirstOrDefault();
             lightPoint.Enable();
             //TODO context save => TODO unitofwork save => TODO emit event and save there
         }
@@ -72,9 +72,9 @@ namespace LightingSystem.Domain.HomeLightSystem
             //TODO context save => TODO unitofwork save => TODO emit event and save there
         }
 
-        public void ChangeBulbStatus(Guid lightPointId, Guid bulbId,bool bulbStatus)
+        public void ChangeLightBulbStatus(Guid lightPointId, Guid bulbId,bool bulbStatus)
         {
-            var lightPoint = lightPoints.Where(lp => lp.LightPointId == lightPointId).FirstOrDefault();
+            var lightPoint = lightPoints.Where(lp => lp.Id == lightPointId).FirstOrDefault();
             lightPoint.ChangeBulbStatus(bulbId, bulbStatus);
             //TODO context save => TODO unitofwork save => TODO emit event and save there
         }

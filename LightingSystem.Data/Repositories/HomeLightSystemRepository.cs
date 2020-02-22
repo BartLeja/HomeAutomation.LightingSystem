@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Dapper;
+﻿using Dapper;
 using LightingSystem.Data.Dapper;
 using LightingSystem.Data.EntityConfigurations;
 using LightingSystem.Data.Extensions;
@@ -34,13 +33,8 @@ namespace LightingSystem.Data.Repositories
         {
             try
             {
-                // _context.Entry(homeLightSystem).State = EntityState.Modified;
-                //var test = await this._context.HomeLightSystem.Include(hls => hls.LightPoints).FirstAsync();
-                //  test.LightPoints.
-                //var test = homeLightSystem.LightPoints.AsList()[0];
-                //this._context.LightPoint.Add(test);
                 this._context.LightPoint.Add(homeLightSystem.LightPoints.AsList()
-                    .Where(lp =>lp.LightPointId.Equals(lightPointId))
+                    .Where(lp =>lp.Id.Equals(lightPointId))
                     .FirstOrDefault());
                 this._context.HomeLightSystem.Update(homeLightSystem);
             }
@@ -52,33 +46,9 @@ namespace LightingSystem.Data.Repositories
 
         public async  Task<HomeLightSystem> GetByIdAsync(Guid homeLightSystemId)
         {
-            //HomeLightSystem homeLightSystem;
-            //using (var connection = this._sqlConnectionFactory.GetOpenConnection())
-            //{
-            //    const string sql = "SELECT * FROM public.homelightsystem WHERE locallightingsystemid = @homeLightSystemId";
-
-            //    //var homeLightSystem = await connection.QuerySingleOrDefaultAsync<HomeLightSystem>(sql, new { homeLightSystemId });
-            //    homeLightSystem = await connection.QueryFirstAsync<HomeLightSystem>(sql, new { homeLightSystemId });
-
-            //    const string sqlProducts = "SELECT FROM  public.LightPoint WHERE HomeLightSystemLocalLightingSystemId = @homeLightSystemId";
-            //    var lightPoints = await connection.QueryFirstAsync<LightPoint>(sql, new { homeLightSystemId });
-
-            //    homeLightSystem.LightPoints = lightPoints;
-
-            //    //order.Products = products.AsList();
-
-            //}
-
-            //return homeLightSystem;
-
-            //return await _context.HomeLightSystem
-            //    .Include(hls => hls.LightPoints)
-            //    .ThenInclude(lp => lp.LightBulbs)
-            //    .FirstOrDefaultAsync(hls => hls.LocalLightingSystemId.Equals(homeLightSystemId));
-
             return await _context.HomeLightSystem
                   .IncludePaths("lightPoints")
-                .SingleAsync(hls => hls.LocalLightingSystemId.Equals(homeLightSystemId));
+                .SingleAsync(hls => hls.Id.Equals(homeLightSystemId));
         }
 
         public async Task Save()

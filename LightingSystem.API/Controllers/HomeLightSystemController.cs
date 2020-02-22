@@ -54,16 +54,15 @@ namespace LightingSystem.API.Controllers
         [HttpPost("{homeLightSystemId}")]
         public async Task<IActionResult> PostLightPoint(Guid homeLightSystemId, [FromBody] LightPointDto request)
         {
-            List<Bulb> bulbs = new List<Bulb>();
+            List<LightBulb> bulbs = new List<LightBulb>();
 
             //foreach (var lightBulb in request.LightBulbs)
             //{
             //    bulbs.Add(_mapper.Map<Bulb>(lightBulb));
             //}
-            bulbs = _mapper.Map<List<Bulb>>(request.LightBulbs);
+            bulbs = _mapper.Map<List<LightBulb>>(request.LightBulbs);
             var lightPoint = await _mediator.Send(
                 new AddLightPointCommand(
-                    request.LightBulbsCount,
                     request.MqttId,
                     request.CustomName,
                     homeLightSystemId,

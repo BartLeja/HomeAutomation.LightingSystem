@@ -2,7 +2,7 @@
 
 namespace LightingSystem.Data.Dtos
 {
-    public class BulbDto
+    public class LightBulbDto
     {
         public Guid Id { get; set; }
         public int Number { get; set; }

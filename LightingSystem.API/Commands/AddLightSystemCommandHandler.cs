@@ -22,7 +22,7 @@ namespace LightingSystem.API.Commands
             
             await _homeLightSystemRepository.AddAsync(homeLightSystem);
             await _homeLightSystemRepository.Save();
-            return homeLightSystem.LocalLightingSystemId;
+            return homeLightSystem.Id;
         }
     }
 }

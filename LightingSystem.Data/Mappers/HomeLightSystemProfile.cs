@@ -13,8 +13,8 @@ namespace LightingSystem.Data.Mappers
             ShouldMapProperty = propertyInfo => true;
             CreateMap<HomeLightSystem, HomeLightSystemDto>();
             CreateMap<LightPoint, LightPointDto>();
-            CreateMap<Bulb, BulbDto>();
-            CreateMap<BulbDto, Bulb>();
+            CreateMap<LightBulb, LightBulbDto>();
+            CreateMap<LightBulbDto, LightBulb>();
         }
     }
 }
