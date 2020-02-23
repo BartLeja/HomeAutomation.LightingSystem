@@ -56,10 +56,6 @@ namespace LightingSystem.API.Controllers
         {
             List<LightBulb> bulbs = new List<LightBulb>();
 
-            //foreach (var lightBulb in request.LightBulbs)
-            //{
-            //    bulbs.Add(_mapper.Map<Bulb>(lightBulb));
-            //}
             bulbs = _mapper.Map<List<LightBulb>>(request.LightBulbs);
             var lightPoint = await _mediator.Send(
                 new AddLightPointCommand(
@@ -71,10 +67,44 @@ namespace LightingSystem.API.Controllers
             return Created(string.Empty, lightPoint);
         }
 
-        // PUT: api/LightSystem/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        // POST: api/LightSystem/disableLightPoint/4a3b39c7-ac56-4853-900f-b776c10cc2e3
+        [HttpPost("disableLightPoint/{lightPointId}")]
+        public async Task<IActionResult> DisableLightPoint( Guid lightPointId)
         {
+            await _mediator.Send(new DisableLighPointCommand(lightPointId));
+            return Ok(lightPointId);
+        }
+
+        // POST: api/LightSystem/enableLightPoint/4a3b39c7-ac56-4853-900f-b776c10cc2e3
+        [HttpPost("enableLightPoint/{lightPointId}")]
+        public async Task<IActionResult> EnableLightPoint( Guid lightPointId)
+        {
+            await _mediator.Send(new EnableLightPointCommand(lightPointId));
+            return Ok(lightPointId);
+        }
+
+        // POST: api/LightSystem/disableAllLightPoints/4a3b39c7-ac56-4853-900f-b776c10cc2e3
+        [HttpPost("disableAllLightPoints/{homeLightSystemid}")]
+        public async Task<IActionResult> DisableAllLightPoints(Guid homeLightSystemId)
+        {
+            await _mediator.Send(new DisableAllLightPointsCommand(homeLightSystemId));
+            return Ok(homeLightSystemId);
+        }
+
+        // POST: api/LightSystem/enableAllLightPoints/4a3b39c7-ac56-4853-900f-b776c10cc2e3
+        [HttpPost("enableAllLightPoints/{homeLightSystemid}")]
+        public async Task<IActionResult> EnableAllLightPoints(Guid homeLightSystemId)
+        {
+            await _mediator.Send(new EnableAllLightPointsCommand(homeLightSystemId));
+            return Ok(homeLightSystemId);
+        }
+
+        // POST: api/changeLightBulbStatus/lightBulbId/4a3b39c7-ac56-4853-900f-b776c10cc2e3
+        [HttpPost("changeLightBulbStatus/{lightBulbId}")]
+        public async Task<IActionResult> ChangeLightBulbStatus(Guid lightBulbId, [FromBody] bool status)
+        {
+            await _mediator.Send(new ChangeLightBulbStatusCommand(lightBulbId, status));
+            return Ok(lightBulbId);
         }
 
         // DELETE: api/ApiWithActions/5

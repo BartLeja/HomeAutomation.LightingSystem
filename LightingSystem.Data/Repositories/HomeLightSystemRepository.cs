@@ -44,11 +44,35 @@ namespace LightingSystem.Data.Repositories
             }
         }
 
-        public async  Task<HomeLightSystem> GetByIdAsync(Guid homeLightSystemId)
+        public void ChangeLighPointAvailability(HomeLightSystem homeLightSystem)
+        {
+            try
+            {
+                this._context.HomeLightSystem.Update(homeLightSystem);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+        }
+
+        public async Task<HomeLightSystem> GetByIdAsync(Guid homeLightSystemId)
         {
             return await _context.HomeLightSystem
                   .IncludePaths("lightPoints")
                 .SingleAsync(hls => hls.Id.Equals(homeLightSystemId));
+        }
+
+        public async Task<LightPoint> GetLightPointByIdAsync(Guid lightPointId)
+        {
+            return await _context.LightPoint
+                .SingleAsync(hls => hls.Id.Equals(lightPointId));
+        }
+
+
+        public async Task<LightBulb> GetLightBulbByIdAsync(Guid lightBulbId)
+        {
+            return await _context.LightBulb.SingleAsync(hls => hls.Id.Equals(lightBulbId));
         }
 
         public async Task Save()

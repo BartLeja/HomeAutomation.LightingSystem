@@ -32,6 +32,11 @@ namespace LightingSystem.API
             services.AddMediatR(typeof(GetLightingSystemQuery));
             services.AddMediatR(typeof(AddLightSystemCommand));
             services.AddMediatR(typeof(AddLightPointCommand));
+            services.AddMediatR(typeof(DisableLighPointCommand));
+            services.AddMediatR(typeof(DisableAllLightPointsCommand));
+            services.AddMediatR(typeof(EnableAllLightPointsCommand));
+            services.AddMediatR(typeof(ChangeLightBulbStatusCommand));
+      
             services.AddDbContext<HomeLightSystemContext>(options =>
                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"),
                b => b.MigrationsAssembly("LightingSystem.API")));

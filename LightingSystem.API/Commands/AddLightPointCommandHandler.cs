@@ -17,7 +17,7 @@ namespace LightingSystem.API.Commands
 
         public async Task<Guid> Handle(AddLightPointCommand request, CancellationToken cancellationToken)
         {
-            var homeLightSystem = await _homeLightSystemRepository.GetByIdAsync(request.HomeLightSystemGuid);
+            var homeLightSystem = await _homeLightSystemRepository.GetByIdAsync(request.HomeLightSystemId);
 
             var lightPointId = homeLightSystem.AddLighPoint(
                 request.MqttId,
