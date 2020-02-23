@@ -30,16 +30,14 @@ namespace LightingSystem.API.Controllers
         [HttpGet]
         public async Task<HomeLightSystemDto> Get()
         {
-            var test = await _mediator.Send(new GetLightingSystemQuery(Guid.NewGuid()));
-            return test;
+            return await _mediator.Send(new GetLightingSystemQuery(Guid.NewGuid()));
         }
 
         // GET: api/LightSystem/5
         [HttpGet("{id}", Name = "Get")]
         public async Task<HomeLightSystemDto> Get(Guid id)
         {
-            var test = await _mediator.Send(new GetLightingSystemQuery(id));
-            return test;
+            return await _mediator.Send(new GetLightingSystemQuery(id));
         }
 
         // POST: api/LightSystem
