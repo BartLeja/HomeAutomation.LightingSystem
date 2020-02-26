@@ -51,7 +51,7 @@ namespace LightingSystem.API.Queries
                         lightPoint.LightBulbs = new List<LightBulbDto>();
                     lightPoint.LightBulbs.Add(b); /* Add locations to course */
                     return lightPoint;
-                }, new { homeLightSystemId }, splitOn: "id,lightpointid").AsQueryable();
+                }, new { homeLightSystemId }, splitOn: "id,id,id").AsQueryable();
                 homeLightSystemDto.LightPoints = lookup.Values.ToList();
             }
 

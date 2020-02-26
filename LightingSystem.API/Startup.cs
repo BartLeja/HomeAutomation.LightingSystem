@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using LightingSystem.API.Commands;
+using LightingSystem.API.Hubs;
 using LightingSystem.API.Queries;
 using LightingSystem.Data.Dapper;
 using LightingSystem.Data.EntityConfigurations;
@@ -45,11 +46,25 @@ namespace LightingSystem.API
                 (x => new SqlConnectionFactory("Server=localhost; Port = 5432; User ID=postgres; Password=Sim13vetson!; Database=HomeLightSystem;"));
 
             services.AddAutoMapper(typeof(Startup), typeof(HomeLightSystemMapper));
+            services.AddSignalR();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAny",
+                    policy =>
+                        policy.AllowCredentials()
+                            .AllowAnyHeader()
+                            .SetIsOriginAllowedToAllowWildcardSubdomains()
+                            .AllowAnyMethod()
+                            .WithOrigins("http://localhost:4200", "https://localhost:44390", "https://localhost:44395",
+                                "https://localhost:44318", "https://sogoodhomeautomation.firebaseapp.com")
+                            );
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseCors("AllowAny");
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -59,6 +74,11 @@ namespace LightingSystem.API
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            
+            app.UseSignalR(route =>
+            {
+                route.MapHub<HomeLightSystemHub>("/HomeLightSystemHub");
+            });
 
             app.UseHttpsRedirection();
             app.UseMvc();
