@@ -6,13 +6,18 @@ namespace LightingSystem.Domain.HomeLightSystem
     public class LightBulb : Entity
     {
         public Guid Id { get; set; }
-        private int number;
         private bool status;
+        public bool Status => status;
 
-        public LightBulb(int number)
+        public LightBulb()
         {
-            this.number = number;
             status = false;
+        }
+
+        public LightBulb(Guid Id)
+        {
+            status = false;
+            this.Id = Id;
         }
 
         public void ChangeStatus(bool status)

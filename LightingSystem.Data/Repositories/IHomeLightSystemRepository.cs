@@ -14,6 +14,7 @@ namespace LightingSystem.Data.Repositories
         void ChangeLighPointAvailability(HomeLightSystem homeLightSystem);
         Task<LightBulb> GetLightBulbByIdAsync(Guid lightBulbId);
         Task<LightPoint> GetLightPointByIdAsync(Guid lightPointId);
+        void DeleteLighPoint(Guid lightPointId);
         Task Save();
     }
 }

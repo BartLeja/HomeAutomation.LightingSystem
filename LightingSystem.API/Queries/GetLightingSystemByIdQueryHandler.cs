@@ -12,20 +12,19 @@ using System.Threading.Tasks;
 
 namespace LightingSystem.API.Queries
 {
-    public class GetLightingSystemQueryHandler : IRequestHandler<GetLightingSystemQuery, HomeLightSystemDto>
+    public class GetLightingSystemByIdQueryHandler : IRequestHandler<GetLightingSystemByIdQuery, HomeLightSystemDto>
     {
-        private readonly IHomeLightSystemRepository _homeLightSystemRepository;
         private readonly IMapper _mapper;
         private readonly ISqlConnectionFactory _sqlConnectionFactory;
 
-        public GetLightingSystemQueryHandler(IHomeLightSystemRepository homeLightSystemRepository, IMapper mapper,
+        public GetLightingSystemByIdQueryHandler(
+             IMapper mapper,
              ISqlConnectionFactory sqlConnectionFactory)
         {
-            _homeLightSystemRepository = homeLightSystemRepository;
             _sqlConnectionFactory = sqlConnectionFactory;
             _mapper = mapper;
         }
-        public async Task<HomeLightSystemDto> Handle(GetLightingSystemQuery request, CancellationToken cancellationToken)
+        public async Task<HomeLightSystemDto> Handle(GetLightingSystemByIdQuery request, CancellationToken cancellationToken)
         {
             HomeLightSystemDto homeLightSystemDto = null;
             using (var connection = this._sqlConnectionFactory.GetOpenConnection())

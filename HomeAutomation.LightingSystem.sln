@@ -9,6 +9,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightingSystem.Domain", "Li
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LightingSystem.Data", "LightingSystem.Data\LightingSystem.Data.csproj", "{D79E757F-4147-497E-BF1A-3BE9D3ECFF40}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{304CAE2E-93AD-4E83-AD77-DCC50B5A0962}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LightingSystemDomain.Test", "LightingSystemDomain.Test\LightingSystemDomain.Test.csproj", "{4119C079-73FA-4098-9676-49474D251A69}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,9 +31,16 @@ Global
 		{D79E757F-4147-497E-BF1A-3BE9D3ECFF40}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D79E757F-4147-497E-BF1A-3BE9D3ECFF40}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D79E757F-4147-497E-BF1A-3BE9D3ECFF40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4119C079-73FA-4098-9676-49474D251A69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4119C079-73FA-4098-9676-49474D251A69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4119C079-73FA-4098-9676-49474D251A69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4119C079-73FA-4098-9676-49474D251A69}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4119C079-73FA-4098-9676-49474D251A69} = {304CAE2E-93AD-4E83-AD77-DCC50B5A0962}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CDF29A14-21D0-456C-B690-95468D58E70C}

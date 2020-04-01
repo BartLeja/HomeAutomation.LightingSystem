@@ -64,13 +64,11 @@ namespace LightingSystem.Data.EntityConfigurations
 
             builder.OwnsMany<LightPoint>("lightPoints", lp =>
             {
-                 lp.Property<string>("MqttId");
                  lp.Property<string>("CustomName");
                  lp.Property<bool>("IsAvailable");
                 
                 lp.OwnsMany<LightBulb>("lightBulbs", b =>
                  {
-                    b.Property<int>("Number");
                     b.Property<bool>("Status");
                  });     
             });

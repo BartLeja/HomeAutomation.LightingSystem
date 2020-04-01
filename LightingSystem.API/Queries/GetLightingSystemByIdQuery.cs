@@ -5,11 +5,11 @@ using System;
 namespace LightingSystem.API.Queries
 {
     //TODO create IComand interferace
-    public class GetLightingSystemQuery : IRequest<HomeLightSystemDto>
+    public class GetLightingSystemByIdQuery : IRequest<HomeLightSystemDto>
     {
         public Guid LocalLightingSystemId { get; }
 
-        public GetLightingSystemQuery(Guid localLightingSystemId)
+        public GetLightingSystemByIdQuery(Guid localLightingSystemId)
         {
             LocalLightingSystemId = localLightingSystemId;
         }

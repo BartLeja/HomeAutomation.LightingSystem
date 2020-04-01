@@ -20,9 +20,8 @@ namespace LightingSystem.API.Commands
             var homeLightSystem = await _homeLightSystemRepository.GetByIdAsync(request.HomeLightSystemId);
 
             var lightPointId = homeLightSystem.AddLighPoint(
-                request.MqttId,
+                request.Id,
                 request.CustomName,
-                request.LightBulbsCount,
                 request.Bulbs);
           
            _homeLightSystemRepository.AddLightPoint(homeLightSystem, lightPointId);

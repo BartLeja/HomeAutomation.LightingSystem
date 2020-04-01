@@ -24,11 +24,12 @@ namespace LightingSystem.Domain.HomeLightSystem
             UserName = username;
             lightPoints = new List<LightPoint>();
             //TODO context save => TODO unitofwork save => TODO emit event and save ther
+
         }
 
-        public Guid AddLighPoint(string mqttId, string customName, int numberOfBulbs, List<LightBulb> lightBulbs)
+        public Guid AddLighPoint(Guid id, string customName, List<LightBulb> lightBulbs)
         {
-            var lightPoint = new LightPoint(mqttId, customName, numberOfBulbs);
+            var lightPoint = new LightPoint(id,customName, lightBulbs.Count());
             foreach(var lightBulb in lightBulbs ?? Enumerable.Empty<LightBulb>())
             {
                 lightPoint.AddLightBulb(lightBulb);
@@ -38,21 +39,6 @@ namespace LightingSystem.Domain.HomeLightSystem
             //TODO context save => TODO unitofwork save => TODO emit event and save there
             return lightPoint.Id;
         }
-
-        public void DisableLighPoint(Guid lightPointId)
-        {
-            var lightPoint = lightPoints.Where(lp => lp.Id == lightPointId).FirstOrDefault();
-            lightPoint.Disable();
-            //TODO context save => TODO unitofwork save => TODO emit event and save there
-        }
-
-        public void EnableLighPoint(Guid lightPointId)
-        {
-            var lightPoint = lightPoints.Where(lp => lp.Id == lightPointId).FirstOrDefault();
-            lightPoint.Enable();
-            //TODO context save => TODO unitofwork save => TODO emit event and save there
-        }
-
 
         public void DisableAllLighPoints()
         {
@@ -69,13 +55,6 @@ namespace LightingSystem.Domain.HomeLightSystem
             {
                 lp.Enable();
             });
-            //TODO context save => TODO unitofwork save => TODO emit event and save there
-        }
-
-        public void ChangeLightBulbStatus(Guid lightPointId, Guid bulbId,bool bulbStatus)
-        {
-            var lightPoint = lightPoints.Where(lp => lp.Id == lightPointId).FirstOrDefault();
-            lightPoint.ChangeBulbStatus(bulbId, bulbStatus);
             //TODO context save => TODO unitofwork save => TODO emit event and save there
         }
     }

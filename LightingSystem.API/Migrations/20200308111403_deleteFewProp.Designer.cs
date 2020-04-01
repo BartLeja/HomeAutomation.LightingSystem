@@ -3,15 +3,17 @@ using System;
 using LightingSystem.Data.EntityConfigurations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace LightingSystem.API.Migrations
 {
     [DbContext(typeof(HomeLightSystemContext))]
-    partial class HomeLightSystemContextModelSnapshot : ModelSnapshot
+    [Migration("20200308111403_deleteFewProp")]
+    partial class deleteFewProp
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,6 +49,8 @@ namespace LightingSystem.API.Migrations
 
                             b1.Property<bool>("IsAvailable");
 
+                            b1.Property<string>("MqttId");
+
                             b1.HasKey("Id");
 
                             b1.HasIndex("HomeLightSystemId");
@@ -66,6 +70,8 @@ namespace LightingSystem.API.Migrations
 
                                     b2.Property<Guid>("LightPointId")
                                         .HasColumnName("lightpointid");
+
+                                    b2.Property<int>("Number");
 
                                     b2.Property<bool>("Status");
 

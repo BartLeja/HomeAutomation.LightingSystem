@@ -11,8 +11,10 @@ namespace LightingSystem.Domain.HomeLightSystem
 
         public IEnumerable<LightBulb> LightBulbs => lightBulbs.ToList();
         private List<LightBulb> lightBulbs;
-        private string mqttId;
+
+        public string CustomName => customName;
         private string customName;
+        public bool IsAvailable => isAvailable;
         private bool isAvailable;
 
         private LightPoint()
@@ -22,13 +24,12 @@ namespace LightingSystem.Domain.HomeLightSystem
         }
 
         public LightPoint(
-            string mqttId, 
+            Guid id,
             string customName, 
             int numberOfBulbs
             )
         {
-            Id = Guid.NewGuid();
-            this.mqttId = mqttId;
+            Id = id;
             this.customName = customName;
             isAvailable = true;
             lightBulbs = new List<LightBulb>();

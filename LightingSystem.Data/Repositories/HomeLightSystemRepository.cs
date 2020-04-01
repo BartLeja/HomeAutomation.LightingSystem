@@ -75,6 +75,20 @@ namespace LightingSystem.Data.Repositories
             return await _context.LightBulb.SingleAsync(hls => hls.Id.Equals(lightBulbId));
         }
 
+        public void DeleteLighPoint(Guid lightPointId)
+        {
+            try
+            {
+                // TODO change for DDD approche when we will have message bus 
+               var lightPointToRemove =  _context.LightPoint.Where(lp => lp.Id.Equals(lightPointId)).FirstOrDefault();
+                _context.LightPoint.Remove(lightPointToRemove);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+        }
+
         public async Task Save()
         {
             await _context.SaveChangesAsync();
