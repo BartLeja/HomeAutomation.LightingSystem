@@ -9,10 +9,7 @@ namespace LightingSystem.Domain.HomeLightSystem
         private bool status;
         public bool Status => status;
 
-        public LightBulb()
-        {
-            status = false;
-        }
+        public LightBulb() => status = false;
 
         public LightBulb(Guid Id)
         {

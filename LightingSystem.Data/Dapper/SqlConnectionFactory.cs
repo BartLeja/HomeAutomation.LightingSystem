@@ -9,10 +9,7 @@ namespace LightingSystem.Data.Dapper
         private readonly string _connectionString;
         private IDbConnection _connection;
 
-        public SqlConnectionFactory(string connectionString)
-        {
-            this._connectionString = connectionString;
-        }
+        public SqlConnectionFactory(string connectionString) => this._connectionString = connectionString;
 
         public IDbConnection GetOpenConnection()
         {

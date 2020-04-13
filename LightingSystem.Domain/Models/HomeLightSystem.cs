@@ -13,10 +13,7 @@ namespace LightingSystem.Domain.HomeLightSystem
         public IEnumerable<LightPoint> LightPoints => lightPoints.ToList();
         private List<LightPoint> lightPoints;
 
-        private HomeLightSystem()
-        {
-            lightPoints = new List<LightPoint>();
-        }
+        private HomeLightSystem() => lightPoints = new List<LightPoint>();
 
         public HomeLightSystem(string username)
         {

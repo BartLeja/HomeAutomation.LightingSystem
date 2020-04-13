@@ -1,4 +1,6 @@
-﻿using LightingSystem.API.Commands;
+﻿using LightingSystem.API.Features.HomeLightingSystem.DisableAllLightPoints;
+using LightingSystem.API.Features.HomeLightingSystem.EnableAllLightPoints;
+using LightingSystem.API.Features.LightPoint.ChangeLightBulbStatus;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
@@ -13,10 +15,7 @@ namespace LightingSystem.API.Hubs
     public class HomeLightSystemHub : Hub
     {
         private readonly IMediator _mediator;
-        public HomeLightSystemHub(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
+        public HomeLightSystemHub(IMediator mediator) => _mediator = mediator;
 
         public override async Task OnConnectedAsync()
         {

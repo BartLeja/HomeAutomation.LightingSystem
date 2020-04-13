@@ -13,10 +13,7 @@ namespace LightingSystemDomain.Test.ModelTest
         private int _numerOfBulbs = 2;
         private string _customName = "first light point in Mr. Putin apartment";
 
-        public LightPointTest()
-        {
-            _lightPoint = new LightPoint(_lightPointId, _customName, _numerOfBulbs);
-        }
+        public LightPointTest() => _lightPoint = new LightPoint(_lightPointId, _customName, _numerOfBulbs);
 
         [Fact]
         public void AddLightBulb_AddLightBulbToLightPoint_ShouldIncreaseNumberOfBulbsInLightPoint()

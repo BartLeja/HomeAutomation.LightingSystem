@@ -1,7 +1,13 @@
 ﻿using AutoMapper;
-using LightingSystem.API.Commands;
+using LightingSystem.API.Features.HomeLightingSystem.Create;
+using LightingSystem.API.Features.HomeLightingSystem.DisableAllLightPoints;
+using LightingSystem.API.Features.HomeLightingSystem.EnableAllLightPoints;
+using LightingSystem.API.Features.HomeLightingSystem.HomeLightSystemDataQuery;
+using LightingSystem.API.Features.LightPoint.ChangeLightBulbStatus;
+using LightingSystem.API.Features.LightPoint.Create;
+using LightingSystem.API.Features.LightPoint.Disable;
+using LightingSystem.API.Features.LightPoint.LightPointDataQuery;
 using LightingSystem.API.Hubs;
-using LightingSystem.API.Queries;
 using LightingSystem.Data.Dapper;
 using LightingSystem.Data.EntityConfigurations;
 using LightingSystem.Data.Mappers;

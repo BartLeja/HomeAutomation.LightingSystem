@@ -10,10 +10,7 @@ namespace LightingSystemDomain.Test.ModelTest
     {
         private LightBulb _lightBulb;
 
-        public LightBulbTest()
-        {
-            _lightBulb = new LightBulb();
-        }
+        public LightBulbTest() => _lightBulb = new LightBulb();
 
         [Fact]
         public void ChangeStatus_ChangeStatusOfLightBulb_ShouldChangeStatusForTrue()
