@@ -10,11 +10,13 @@ using LightingSystem.API.Features.LightPoint.LightPointDataQuery;
 using LightingSystem.Data.Dtos;
 using LightingSystem.Domain.HomeLightSystem;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LightingSystem.API.Features.LightPoint
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class LightPointController : Controller
     {

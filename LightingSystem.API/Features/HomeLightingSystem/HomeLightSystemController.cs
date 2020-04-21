@@ -9,11 +9,13 @@ using LightingSystem.API.Features.HomeLightingSystem.HomeLightSystemDataQuery;
 using LightingSystem.API.Features.HomeLightingSystem.HomeLightSystemsDataQuery;
 using LightingSystem.Data.Dtos;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LightingSystem.API.Features.HomeLightingSystem
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class HomeLightSystemController : Controller
     {
