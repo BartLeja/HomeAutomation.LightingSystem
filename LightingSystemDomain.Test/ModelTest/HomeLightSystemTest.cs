@@ -16,6 +16,7 @@ namespace LightingSystemDomain.Test.ModelTest
 
         public HomeLightSystemTest()
         {
+            
             _homeLightSystem = new HomeLightSystem(_userName);
             _lightBulbs = new List<LightBulb>()
             {

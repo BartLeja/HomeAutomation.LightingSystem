@@ -9,9 +9,9 @@ namespace LightingSystem.Data.EntityConfigurations
 {
     public class HomeLightSystemContext : DbContext
     {
+
         public HomeLightSystemContext(DbContextOptions<HomeLightSystemContext> options) : base(options)
         {
-
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
