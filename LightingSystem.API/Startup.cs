@@ -3,10 +3,12 @@ using LightingSystem.API.Features.HomeLightingSystem.Create;
 using LightingSystem.API.Features.HomeLightingSystem.DisableAllLightPoints;
 using LightingSystem.API.Features.HomeLightingSystem.EnableAllLightPoints;
 using LightingSystem.API.Features.HomeLightingSystem.HomeLightSystemDataQuery;
+using LightingSystem.API.Features.LightPoint.AddLightsGroupToLightPoint;
 using LightingSystem.API.Features.LightPoint.ChangeLightBulbStatus;
 using LightingSystem.API.Features.LightPoint.Create;
 using LightingSystem.API.Features.LightPoint.Disable;
 using LightingSystem.API.Features.LightPoint.LightPointDataQuery;
+using LightingSystem.API.Features.LightPoint.RemoveLightsGroupFromLightPoint;
 using LightingSystem.API.Hubs;
 using LightingSystem.Data.Dapper;
 using LightingSystem.Data.EntityConfigurations;
@@ -47,26 +49,10 @@ namespace LightingSystem.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //ProductionConnection
+            //LocalConnection
+            var environment = Configuration.GetConnectionString("ProductionConnection");
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddMediatR(typeof(Startup));
-            services.AddMediatR(typeof(GetLightingSystemByIdQuery));
-            services.AddMediatR(typeof(GetLightPointQuery));
-            services.AddMediatR(typeof(AddLightSystemCommand));
-            services.AddMediatR(typeof(AddLightPointCommand));
-            services.AddMediatR(typeof(DisableLighPointCommand));
-            services.AddMediatR(typeof(DisableAllLightPointsCommand));
-            services.AddMediatR(typeof(EnableAllLightPointsCommand));
-            services.AddMediatR(typeof(ChangeLightBulbStatusCommand));
-            
-            services.AddDbContext<HomeLightSystemContext>(options =>
-             options.UseNpgsql(Configuration.GetConnectionString("ProductionConnection"),
-             b => b.MigrationsAssembly("LightingSystem.API")));
-            services.AddScoped<IHomeLightSystemRepository, HomeLightSystemRepository>();
-            services.AddTransient<ISqlConnectionFactory>
-                (x => new SqlConnectionFactory(Configuration.GetConnectionString("ProductionConnection")));
-
-            services.AddAutoMapper(typeof(Startup), typeof(HomeLightSystemMapper));
-            services.AddSignalR();
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowAny",
@@ -76,10 +62,33 @@ namespace LightingSystem.API
                             .SetIsOriginAllowedToAllowWildcardSubdomains()
                             .AllowAnyMethod()
                             .WithOrigins("http://localhost:4200", "https://localhost:44390", "https://localhost:44395",
-                                "https://localhost:44318", "https://sogoodhomeautomation.firebaseapp.com" 
+                                "https://localhost:44318", "https://sogoodhomeautomation.firebaseapp.com"
                                 )
                             );
             });
+            services.AddMediatR(typeof(Startup));
+            services.AddMediatR(typeof(GetLightingSystemByIdQuery));
+            services.AddMediatR(typeof(GetLightPointQuery));
+            services.AddMediatR(typeof(AddLightSystemCommand));
+            services.AddMediatR(typeof(AddLightPointCommand));
+            services.AddMediatR(typeof(DisableLighPointCommand));
+            services.AddMediatR(typeof(DisableAllLightPointsCommand));
+            services.AddMediatR(typeof(EnableAllLightPointsCommand));
+            services.AddMediatR(typeof(ChangeLightBulbStatusCommand));
+            services.AddMediatR(typeof(AddLightsGroupToLightPointCommand));
+            services.AddMediatR(typeof(RemoveLightsGroupFromLightPointCommand));
+            services.AddMediatR(typeof(DisableAllLightPointsCommand));
+          
+            services.AddDbContext<HomeLightSystemContext>(options =>
+             options.UseNpgsql(environment,
+             b => b.MigrationsAssembly("LightingSystem.API")));
+            services.AddScoped<IHomeLightSystemRepository, HomeLightSystemRepository>();
+            services.AddTransient<ISqlConnectionFactory>
+                (x => new SqlConnectionFactory(environment));
+
+            services.AddAutoMapper(typeof(Startup), typeof(HomeLightSystemMapper));
+            services.AddSignalR();
+          
 
             services.AddAuthentication(options =>
             {

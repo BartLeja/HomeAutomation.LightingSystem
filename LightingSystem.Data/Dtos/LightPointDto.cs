@@ -9,5 +9,6 @@ namespace LightingSystem.Data.Dtos
         public string CustomName { get; set; }
         public bool IsAvailable { get; set; }
         public List<LightBulbDto> LightBulbs { get; set;}
+        public LightsGroupDto LightsGroup { get; set; }
     }
 }

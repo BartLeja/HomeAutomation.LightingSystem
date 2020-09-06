@@ -12,7 +12,8 @@ namespace LightingSystem.API.Features.HomeLightingSystem.DisableAllLightPoints
     {
         private IHomeLightSystemRepository _homeLightSystemRepository;
 
-        public DisableAllLightPointsCommandHandler(IHomeLightSystemRepository homeLightSystemRepository) => _homeLightSystemRepository = homeLightSystemRepository ?? throw new ArgumentNullException(nameof(homeLightSystemRepository));
+        public DisableAllLightPointsCommandHandler(IHomeLightSystemRepository homeLightSystemRepository) 
+            => _homeLightSystemRepository = homeLightSystemRepository ?? throw new ArgumentNullException(nameof(homeLightSystemRepository));
 
         public async Task<Guid> Handle(DisableAllLightPointsCommand request, CancellationToken cancellationToken)
         {

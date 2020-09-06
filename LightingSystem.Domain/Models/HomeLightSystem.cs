@@ -54,5 +54,15 @@ namespace LightingSystem.Domain.HomeLightSystem
             });
             //TODO context save => TODO unitofwork save => TODO emit event and save there
         }
+
+        public IEnumerable<Guid> ChangeLightPointsGroupStatus(Guid lightPointsGroupId, bool status)
+        {
+            var lightPointsInOneGroup = lightPoints
+                  .Where(lp => Guid.Equals(lp.LightsGroup.Id, lightPointsGroupId));
+
+            lightPointsInOneGroup.ToList().ForEach(lp => lp.ChangeLightPointStatus(status));
+
+            return lightPointsInOneGroup.SelectMany(lp => lp.LightBulbs.Select(lb=>lb.Id));
+        }
     }
 }

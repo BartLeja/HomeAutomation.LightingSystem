@@ -1,4 +1,5 @@
-﻿using LightingSystem.API.Features.HomeLightingSystem.DisableAllLightPoints;
+﻿using LightingSystem.API.Features.HomeLightingSystem.ChangeLightPointsGroupStatus;
+using LightingSystem.API.Features.HomeLightingSystem.DisableAllLightPoints;
 using LightingSystem.API.Features.HomeLightingSystem.EnableAllLightPoints;
 using LightingSystem.API.Features.LightPoint.ChangeLightBulbStatus;
 using MediatR;
@@ -53,6 +54,17 @@ namespace LightingSystem.API.Hubs
         {
             await _mediator.Send(new ChangeLightBulbStatusCommand(lightBulbId, status));
             await Clients.Others.SendAsync("ReceiveLightPointStatus", lightBulbId, status);
+        }
+
+        public async Task SendLightPointsGroupStatus(Guid lightPointsGroupId, bool status)
+        {
+            //TODO Guid.Parse(Context.User.Claims.ToList()[1].Value) insert into user token home automation guid or take from db
+            var lightPointIds = await _mediator.Send(new ChangeLightPointsGroupStatusCommand(
+                Guid.Parse("bdcd95ec-2dc6-4a7b-90ca-f132a7784b0f"),
+                lightPointsGroupId, 
+                status));
+
+            await Clients.Others.SendAsync("ReceiveLightPointsGroupStatus", lightPointIds, status);
         }
         
         public async Task SendHardRestOfLightPointMessage(Guid lightPointId)

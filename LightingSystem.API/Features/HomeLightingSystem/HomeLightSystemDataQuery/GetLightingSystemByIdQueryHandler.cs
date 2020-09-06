@@ -36,20 +36,28 @@ namespace LightingSystem.API.Features.HomeLightingSystem.HomeLightSystemDataQuer
                 //var homeLightSystemLocalLightingSystemId = request.LocalLightingSystemId;
                 
                 var lookup = new Dictionary<Guid, LightPointDto>();
-                connection.Query<LightPointDto, LightBulbDto, LightPointDto>(@"
-                        SELECT lp.*, b.*
+                connection.Query<LightPointDto, LightBulbDto,LightsGroupDto, LightPointDto>(@"
+                        SELECT lp.*, b.*, lg.*
                         FROM public.lightpoint lp 
                         INNER JOIN public.lightbulb b ON lp.id = b.lightpointid 
+                        LEFT JOIN public.lightsgroup lg ON lp.lightsgroupid = lg.id       
                         AND lp.homelightsystemid = @homeLightSystemId", 
-                        (lp, b) => {
+                        (lp, b, lg) => {
                     LightPointDto lightPoint;
                     if (!lookup.TryGetValue(lp.Id, out lightPoint))
-                        lookup.Add(lp.Id, lightPoint = lp);
+                            {
+                                if (lg!=null)
+                                {
+                                    lp.LightsGroup = lg;
+                                }
+                               
+                                lookup.Add(lp.Id, lightPoint = lp);
+                            }
                     if (lightPoint.LightBulbs == null)
                         lightPoint.LightBulbs = new List<LightBulbDto>();
                     lightPoint.LightBulbs.Add(b); /* Add locations to course */
                     return lightPoint;
-                }, new { homeLightSystemId }, splitOn: "id,id,id").AsQueryable();
+                }, new { homeLightSystemId }, splitOn: "id,id,id,id").AsQueryable();
                 homeLightSystemDto.LightPoints = lookup.Values.ToList();
             }
 

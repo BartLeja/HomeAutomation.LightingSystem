@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using LightingSystem.API.Commands;
+using LightingSystem.API.Features.LightPoint.AddLightsGroupToLightPoint;
 using LightingSystem.API.Features.LightPoint.Create;
 using LightingSystem.API.Features.LightPoint.Delete;
 using LightingSystem.API.Features.LightPoint.Disable;
 using LightingSystem.API.Features.LightPoint.LightPointDataQuery;
+using LightingSystem.API.Features.LightPoint.RemoveLightsGroupFromLightPoint;
 using LightingSystem.Data.Dtos;
 using LightingSystem.Domain.HomeLightSystem;
 using MediatR;
@@ -74,6 +76,27 @@ namespace LightingSystem.API.Features.LightPoint
         public async Task<IActionResult> DeleteLightPoint(Guid lightPointId)
         {
             await _mediator.Send(new DeleteLightPointCommand(lightPointId));
+            return Ok(lightPointId);
+        }
+
+        // POST: api/LightPoint/addlightsgrouptolightpoint/
+        [HttpPost("addlightsgrouptolightpoint")]
+        public async Task<IActionResult> AddLightsGroupToLightPoint([FromBody] LightsGroupDto request)
+        {
+            await _mediator.Send(new AddLightsGroupToLightPointCommand(
+                request.Id,
+                request.LightGroupName,
+                request.LightPointId));
+
+            return Created(string.Empty, request.Id);
+        }
+
+        // DELETE: api/LightPoint/removelightsgroupfromlightpoint/4a3b39c7-ac56-4853-900f-b776c10cc2e3
+        [HttpDelete("removelightsgroupfromlightpoint/{lightPointId}")]
+        public async Task<IActionResult> RemoveLightsGroupFromLightPoint(Guid lightPointId)
+        {
+            await _mediator.Send(new RemoveLightsGroupFromLightPointCommand(lightPointId));
+
             return Ok(lightPointId);
         }
     }

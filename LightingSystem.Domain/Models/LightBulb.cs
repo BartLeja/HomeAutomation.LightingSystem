@@ -1,4 +1,5 @@
 ﻿using LightingSystem.Domain.Common;
+using LightingSystem.Domain.Models;
 using System;
 
 namespace LightingSystem.Domain.HomeLightSystem
@@ -8,7 +9,7 @@ namespace LightingSystem.Domain.HomeLightSystem
         public Guid Id { get; set; }
         private bool status;
         public bool Status => status;
-
+   
         public LightBulb() => status = false;
 
         public LightBulb(Guid Id)
